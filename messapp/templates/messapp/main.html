@@ -1,0 +1,45 @@
+{% extends "messapp/base.html" %}
+{% load socialaccount %}
+
+{% block title %}MessApp{% endblock %}
+
+{% block content %}
+  {% if request.user.is_authenticated %}
+    <div class="inputText text-center">
+      <form method="POST" action="/messapp/post/" class="form-horizontal">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-default" accesskey="">Add message</button>
+      </form>
+    </div>
+  {% endif %}
+  <div class="container-fluid messages-container">
+    <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2">
+      <ul class="root">
+          <li class="message">
+            <div class="message-head">
+              {% if node.is_root_node %}
+                <button class="btn btn-default btn-xs concealer"
+                        data-toggle="collapse"
+                        data-target="#hide-me{{ node.pk }}">
+                  <span class="glyphicon glyphicon-triangle-bottom"></span>
+                </button>
+              {% endif %}
+              <p>{{ node.pub_date }}</p>
+              {% if request.user.is_authenticated %}
+                <a href="" class="reply">reply</a>
+              {% endif %}
+            </div>
+            <div id="hide-me{{ node.pk }}" class="collapse in">
+              <p>{{ node.text }}</p>
+              {% if not message.is_leaf_node %}
+                <ul class="children comment">
+                  {{ children }}
+                </ul>
+              {% endif %}
+            </div>
+          </li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

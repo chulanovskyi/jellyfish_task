@@ -1,0 +1,50 @@
+{% load staticfiles %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}{% endblock %}</title>
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" media="screen">
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+  <link href="{% static 'css/bootstrap-theme.min.css' %}" rel="stylesheet" media="screen">
+</head>
+
+<body class="logo_background">
+  {% block header %}
+    <div class="page-header">
+      {% if request.user.is_authenticated %}
+        <div class="col-md-4 pull-right profile">
+          <h3>Welcome <br/> {{ request.user.get_full_name }}</h3>
+          <a href="/accounts/logout/" class="btn btn-default">Logout</a>
+        </div>
+      {% else %}
+        <div class="row no-marg">
+          <div class="loginBlock col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
+            <h3>To add and commenting messages please login</h3>
+            <!--<a href="/accounts/facebook/login/?process=login">
+                        <img src="{% static 'images/f_logo.png' %}" alt="fb_logo">
+                    </a>-->
+            <a href="/accounts/google/login/?process=login">
+              <img src="{% static 'images/g_logo.png' %}" alt="g+_logo">
+            </a>
+            <a href="/accounts/vk/login/?process=login">
+              <img src="{% static 'images/v_logo.png' %}" alt="vk_logo">
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  {% endblock %}
+  <div class="content container">
+    <div class="row">
+      <div class="col-md-12">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="{% static 'js/jquery-2.2.4.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
+</body>
+</html>
