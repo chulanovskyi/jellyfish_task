@@ -80,9 +80,14 @@ DATABASES = {
     }
 }
 
+REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
+
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'asgiref.inmemory.ChannelLayer',
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [(REDIS_HOST, 6379)]
+        },
         'ROUTING': 'jelly.routing.channel_routing',
     },
 }
@@ -120,3 +125,6 @@ USE_TZ = True
 SECRET_KEY = os.getenv('DJANGO_JELLY_KEY', 'no_key')
 
 SITE_ID = 1
+
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"

@@ -1,6 +1,18 @@
-from channels.routing import route
+from channels import route
+
+
+def receive_message(message):
+    print(message['text'])
 
 
 channel_routing = [
-    route('http.request', 'messapp.consumers.http_request_consumer')
+    route('websocket.recieve', receive_message)
 ]
+
+'''
+channel_routing = {
+    'websocket.connect': 'messapp.consumers.ws_connect',
+    'websocket.recieve': 'messapp.consumers.ws_message',
+    'websocket.disconnect': 'messapp.consumers.ws_disconnect',
+}
+'''
